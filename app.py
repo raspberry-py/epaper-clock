@@ -38,15 +38,16 @@ class Application:
             t = datetime.now()
 
             for it in self.modules:
-                it["module"].update()
+                module = it["module"]
+                module.update()
 
                 if (t - it["last_switch"]).seconds >= it["interval"]:
                     it["last_switch"] = t
-                    self.active_module = it["module"]
+                    self.active_module = module
                     self.state = self.STATE_INIT_FULL_UPDATE
                     break
                 elif self.active_module is None:
-                    self.active_module = it["module"]
+                    self.active_module = module
 
             if self.state == self.STATE_INIT_FULL_UPDATE:
                 self.epd.init(self.epd.FULL_UPDATE)

@@ -42,7 +42,7 @@ class Application:
                 self.last_switch = t
                 self.state = self.STATE_INIT_FULL_UPDATE
 
-            self.active_module[1].update()
+            self.active_module[1].redraw()
 
             if self.state == self.STATE_INIT_FULL_UPDATE:
                 self.epd.init(self.epd.FULL_UPDATE)

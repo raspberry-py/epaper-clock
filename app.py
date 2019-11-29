@@ -1,6 +1,6 @@
-from functools import partial
 import time
 from datetime import datetime
+from itertools import cycle
 
 from lib import epd2in13
 from modules.watches import Watches
@@ -13,22 +13,22 @@ class Application:
     STATE_SWITCH_SCREEN_UPDATE = 4
 
     def __init__(self, modules):
+        assert len(modules) > 0
+
         self.epd = epd2in13.EPD()
 
-        self.modules = [{
-            "last_switch": datetime.min,
-            "interval": interval,
-            "module": module((self.epd.height, self.epd.width))}
-            for interval, module in modules
-        ]
-        self.active_module = None
+        self.modules = cycle(map(lambda m: (m[0], m[1]((self.epd.height, self.epd.width))), modules))
+
         self.state = self.STATE_INIT_FULL_UPDATE
+
+        self.last_switch = datetime.min
+        self.active_module = None
 
     def __del__(self):
         self.epd.sleep()
 
     def get_image(self):
-        return self.epd.getbuffer(self.active_module.image)
+        return self.epd.getbuffer(self.active_module[1].image)
 
     def loop(self):
         self.epd.init(self.epd.FULL_UPDATE)
@@ -37,17 +37,12 @@ class Application:
         while True:
             t = datetime.now()
 
-            for it in self.modules:
-                module = it["module"]
-                module.update()
+            if self.active_module is None or (t - self.last_switch).seconds >= self.active_module[0]:
+                self.active_module = next(self.modules)
+                self.last_switch = t
+                self.state = self.STATE_INIT_FULL_UPDATE
 
-                if (t - it["last_switch"]).seconds >= it["interval"]:
-                    it["last_switch"] = t
-                    self.active_module = module
-                    self.state = self.STATE_INIT_FULL_UPDATE
-                    break
-                elif self.active_module is None:
-                    self.active_module = module
+            self.active_module[1].update()
 
             if self.state == self.STATE_INIT_FULL_UPDATE:
                 self.epd.init(self.epd.FULL_UPDATE)
@@ -69,7 +64,7 @@ class Application:
 
 if __name__ == '__main__':
     app = Application([
-        (300, partial(Watches, update_interval=30))
+        (300, Watches)
     ])
     try:
         app.loop()

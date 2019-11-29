@@ -7,8 +7,8 @@ from modules import Module
 
 
 class Watches(Module):
-    def __init__(self, size, update_interval):
-        super().__init__(size, update_interval)
+    def __init__(self, size):
+        super().__init__(size)
         self._time_font = ImageFont.truetype("res/watches/digital-7 (mono).ttf", 90)
         self._date_font = ImageFont.truetype("res/watches/digital-7 (mono).ttf", 40)
 

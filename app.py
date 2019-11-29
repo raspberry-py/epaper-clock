@@ -64,7 +64,7 @@ class Application:
 
 if __name__ == '__main__':
     app = Application([
-        (300, Watches)
+        (600, Watches)
     ])
     try:
         app.loop()

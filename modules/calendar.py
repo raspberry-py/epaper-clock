@@ -16,7 +16,7 @@ class Calendar(Module):
 
     @staticmethod
     def _load_pic(name):
-        img = Image.open(open(f"../res/calendar/{name}.png", "rb"))
+        img = Image.open(open(f"res/calendar/{name}.png", "rb"))
         img.thumbnail((110, 110))
         return img
 

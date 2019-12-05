@@ -10,7 +10,6 @@ class Calendar(Module):
     def __init__(self, size):
         super().__init__(size)
         self._seasons = [self._load_pic(s) for s in ("winter", "spring", "summer", "autumn")]
-        self._season_months = {12: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 1, 6: 2, 7: 2, 8: 2, 9: 3, 10: 3, 11: 3}
         self._date_font = ImageFont.truetype("../res/calendar/SlimThinPixelettes-y5Y3.ttf", 30)
         self._day_font = ImageFont.truetype("../res/calendar/ComputerPixel7-mnL2.ttf", 40)
         self._time_font = ImageFont.truetype("../res/calendar/digital-7 (mono).ttf", 26)
@@ -25,7 +24,7 @@ class Calendar(Module):
         self._canvas.rectangle((0, 0, self.size[0], self.size[1]), fill=255)
 
     def _get_season_pic(self):
-        return self._seasons[self._season_months[date.today().month]]
+        return self._seasons[(date.today().month // 3) % 4]
 
     def redraw(self):
         super().redraw()

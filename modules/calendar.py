@@ -10,9 +10,9 @@ class Calendar(Module):
     def __init__(self, size):
         super().__init__(size)
         self._seasons = [self._load_pic(s) for s in ("winter", "spring", "summer", "autumn")]
-        self._date_font = ImageFont.truetype("../res/calendar/SlimThinPixelettes-y5Y3.ttf", 30)
-        self._day_font = ImageFont.truetype("../res/calendar/ComputerPixel7-mnL2.ttf", 40)
-        self._time_font = ImageFont.truetype("../res/calendar/digital-7 (mono).ttf", 26)
+        self._date_font = ImageFont.truetype("res/calendar/SlimThinPixelettes-y5Y3.ttf", 30)
+        self._day_font = ImageFont.truetype("res/calendar/ComputerPixel7-mnL2.ttf", 40)
+        self._time_font = ImageFont.truetype("res/calendar/digital-7 (mono).ttf", 26)
 
     @staticmethod
     def _load_pic(name):

@@ -65,8 +65,8 @@ class Application:
 
 if __name__ == '__main__':
     app = Application([
-        (300, Watches),
-        (60, Calendar),
+        (120, Watches),
+        (30, Calendar),
     ])
     try:
         app.loop()

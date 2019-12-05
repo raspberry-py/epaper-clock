@@ -3,6 +3,7 @@ from datetime import datetime
 from itertools import cycle
 
 from lib import epd2in13
+from modules.calendar import Calendar
 from modules.watches import Watches
 
 
@@ -64,7 +65,8 @@ class Application:
 
 if __name__ == '__main__':
     app = Application([
-        (600, Watches)
+        (300, Watches),
+        (60, Calendar),
     ])
     try:
         app.loop()
